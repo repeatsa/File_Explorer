@@ -45,13 +45,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\file_Control.cs" />
-     <Compile Include="Assets\file_Model.cs" />
-     <Compile Include="Assets\file_View.cs" />
-     <Compile Include="Assets\findFile.cs" />
-     <Compile Include="Assets\findFile_control.cs" />
-     <Compile Include="Assets\findFile_view.cs" />
-     <Compile Include="Assets\testFindFile.cs" />
+     <Compile Include="Assets\0921\testFindFile.cs" />
+     <Compile Include="Assets\0926\findFile.cs" />
+     <Compile Include="Assets\0926\findFile_control.cs" />
+     <Compile Include="Assets\0926\findFile_view.cs" />
+     <Compile Include="Assets\1003\file_Control.cs" />
+     <Compile Include="Assets\1003\file_Model.cs" />
+     <Compile Include="Assets\1003\file_View.cs" />
+     <Compile Include="Assets\1006\choose_Length.cs" />
+     <Compile Include="Assets\1006\create_Write.cs" />
+     <Compile Include="Assets\1006\find_Control.cs" />
+     <Compile Include="Assets\1006\find_Model.cs" />
+     <Compile Include="Assets\1006\find_Outside.cs" />
+     <Compile Include="Assets\1006\find_View.cs" />
+     <Compile Include="Assets\1006\find_Word.cs" />
+     <Compile Include="Assets\1006\name_Extension.cs" />
+     <Compile Include="Assets\1006\read_files.cs" />
      <None Include="Assets\testFolder\test.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
