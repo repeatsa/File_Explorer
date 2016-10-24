@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class find_Word{
-	public int m_iZero = 0 ;
+	public  int m_iZero = 0 ;
 	public int m_iOne = 1 ;
 	public int m_iTwo= 2 ;
 	public int m_iThree =3 ;

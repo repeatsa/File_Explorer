@@ -61,6 +61,13 @@
      <Compile Include="Assets\1006\find_Word.cs" />
      <Compile Include="Assets\1006\name_Extension.cs" />
      <Compile Include="Assets\1006\read_files.cs" />
+     <Compile Include="Assets\1017\ConditionData.cs" />
+     <Compile Include="Assets\1017\FileData.cs" />
+     <Compile Include="Assets\1017\FileInFoControl.cs" />
+     <Compile Include="Assets\1017\FileInFoModel.cs" />
+     <Compile Include="Assets\1017\FileInFoView.cs" />
+     <Compile Include="Assets\1017\FileManager.cs" />
+     <Compile Include="Assets\1017\TextLibrary.cs" />
      <None Include="Assets\testFolder\test.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
