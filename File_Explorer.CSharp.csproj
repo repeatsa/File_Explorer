@@ -12,7 +12,7 @@
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
@@ -63,10 +63,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\findFile.cs" />
-    <Compile Include="Assets\testFindFile.cs" />
+    <Compile Include="Assets\0921\testFindFile.cs" />
+    <Compile Include="Assets\0926\findFile.cs" />
+    <Compile Include="Assets\0926\findFile_control.cs" />
+    <Compile Include="Assets\0926\findFile_view.cs" />
+    <Compile Include="Assets\1003\file_Control.cs" />
+    <Compile Include="Assets\1003\file_Model.cs" />
+    <Compile Include="Assets\1003\file_View.cs" />
+    <Compile Include="Assets\1006\choose_Length.cs" />
+    <Compile Include="Assets\1006\create_Write.cs" />
+    <Compile Include="Assets\1006\find_Control.cs" />
+    <Compile Include="Assets\1006\find_Model.cs" />
+    <Compile Include="Assets\1006\find_Outside.cs" />
+    <Compile Include="Assets\1006\find_View.cs" />
+    <Compile Include="Assets\1006\find_Word.cs" />
+    <Compile Include="Assets\1006\name_Extension.cs" />
+    <Compile Include="Assets\1006\read_files.cs" />
+    <Compile Include="Assets\1017\ConditionData.cs" />
+    <Compile Include="Assets\1017\FileData.cs" />
+    <Compile Include="Assets\1017\FileInFoControl.cs" />
+    <Compile Include="Assets\1017\FileInFoModel.cs" />
+    <Compile Include="Assets\1017\FileInFoView.cs" />
+    <Compile Include="Assets\1017\FileManager.cs" />
+    <Compile Include="Assets\1017\TextLibrary.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\StringLibrary.txt" />
     <None Include="Assets\testFolder\test.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

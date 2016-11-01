@@ -1,148 +1,127 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 
 public class FileInFoModel  {
 
 	//篩選名稱及副檔名
-	public string filterNameExtension (string _sFile,string _sFactor ){
+	public bool filterNameExtension(string _sFile,string _sFactor ){
 		int iNumber =  _sFile.IndexOf(_sFactor);
-		if (iNumber > TextLibrary.IZERO) {
-			return _sFile;
+        bool _bAnswer = false;
+        //0以下代表在String找不到此字串
+        if (iNumber > 0) {
+            _bAnswer = true;
+            return _bAnswer;
 		} else {
-			return null;
+			return _bAnswer;
 		}
 	}
 
 	//轉換成資料流跟篩選狀態
-	public string changeInFoAndFilterTimesType(string _sFile, string _sFactor ,string _sTime,  int _iType){
-		TextLibrary.selectCreateWriteType selectType = TextLibrary.selectCreateWriteType.Zero;
-		string _sData = null;
-		selectType = (TextLibrary.selectCreateWriteType)_iType;
-
-		if (TextLibrary.selectCreateWriteType.Frist == selectType) {
-			_sData = _filterCreateWriteTime (_sFile,_sTime, _sFactor);
+	public bool changeInFoAndFilterTimesType( string _sFactor ,string _sTime){
+        bool _bAnswer = false;
+        int _iSpace = _sTime.IndexOf (TextLibrary.SSPACE);
+        if (0 > _iSpace)
+        {
+            return _bAnswer;
+        }
+		_sTime = _sTime.Substring (0, _iSpace);
+		if (_sTime == _sFactor) {
+            _bAnswer = true;
 		}
-		if (TextLibrary.selectCreateWriteType.Second == selectType) {
-			_sData = _filterCreateWriteTime (_sFile,_sTime, _sFactor);
-		}
-		return _sData;
-	}
-
-	//篩選創建及修改時間
-	private string _filterCreateWriteTime(string _sFile,string _sData,string _sFactor ){
-		int iSpace = _sData.IndexOf (TextLibrary.SSPACE);
-		_sData = _sData.Substring (TextLibrary.IZERO, iSpace);
-		if (_sData == _sFactor) {
-			return _sFile;
-		} else {
-			return null;
-		}
+		return _bAnswer;
 	}
 	//做比大還比小的判定，type{事件，最小值單位，最大值單位}
-	public string filterSize(string _sfile,int _iKey,ConditionData _ConditionData){
-		TextLibrary.selectCreateWriteType selectType = TextLibrary.selectCreateWriteType.Zero;
-		FileInfo _fileinfo = new FileInfo (_sfile);
-		string _sOutPutFile = null;
-		if (true == _ConditionData.getMinBool () && true == _ConditionData.getMaxBool ()) {
-			selectType = TextLibrary.selectCreateWriteType.Third;
-		} else if (true == _ConditionData.getMinBool ()) {
-			selectType = TextLibrary.selectCreateWriteType.Frist;
-		}
-		else if (true ==  _ConditionData.getMaxBool ()) {
-			selectType = TextLibrary.selectCreateWriteType.Second;
-		}
-		if (TextLibrary.IONE !=_iKey) {
-			double _dMin = TextLibrary.IZERO;
-			double _dMax = TextLibrary.IZERO;
-			switch (selectType) {
-			case TextLibrary.selectCreateWriteType.Frist:
-				_dMin = _filterFilesUnit (_ConditionData.getMin(),_ConditionData.getMinUnit());
-				if (_fileinfo.Length >= _dMin) {
-					_sOutPutFile = _sfile;
-				}
+	public bool filterSize(FileData _sfile,TextLibrary.selectFileFolder _FileFolderType,ConditionData _ConditionData, TextLibrary.selectMinMaxType _enumType){
+        bool _bAnswer = false;
+		if (TextLibrary.selectFileFolder.File ==_FileFolderType) {
+			float _fMin = 0.0f;
+			float _fMax = 0.0f;
+			switch (_enumType) {
+			case TextLibrary.selectMinMaxType.Min:
+				_fMin = _filterFilesUnit (_ConditionData.getMin(),_ConditionData.getMinUnit());
+				if (_sfile.getLength() >= _fMin) {
+                        _bAnswer = true;
+                }
 				break;
-			case TextLibrary.selectCreateWriteType.Second:
-				_dMax = _filterFilesUnit (_ConditionData.getMax(), _ConditionData.getMaxUnit());
-				if (_fileinfo.Length <= _dMax) {
-					_sOutPutFile = _sfile;
-				}
+			case TextLibrary.selectMinMaxType.Max:
+				_fMax = _filterFilesUnit (_ConditionData.getMax(), _ConditionData.getMaxUnit());
+				if (_sfile.getLength() <= _fMax) {
+                        _bAnswer = true;
+                    }
 				break;
-			case TextLibrary.selectCreateWriteType.Third:
-				_dMin = _filterFilesUnit (_ConditionData.getMin(), _ConditionData.getMinUnit());
-				_dMax = _filterFilesUnit (_ConditionData.getMax(), _ConditionData.getMaxUnit());
-				if (_fileinfo.Length <= _dMax && _fileinfo.Length >= _dMin) {
-					_sOutPutFile = _sfile;
-				}
+			case TextLibrary.selectMinMaxType.MinAndMax:
+				_fMin = _filterFilesUnit (_ConditionData.getMin(), _ConditionData.getMinUnit());
+				_fMax = _filterFilesUnit (_ConditionData.getMax(), _ConditionData.getMaxUnit());
+				if (_sfile.getLength() <= _fMax && _sfile.getLength() >= _fMin) {
+                        _bAnswer = true;
+                    }
 				break;
 			default:
-				_sOutPutFile = null;
+                    _bAnswer = false;
 				break;
 			}
-			return _sOutPutFile;
+			return _bAnswer;
 		}else{
-			return null;
+			return _bAnswer;
 		}
 	}
-	//篩選檔案單位
-	private double _filterFilesUnit(string _sCondition , int _iUnitType){
+    //篩選檔案單位
+    private float _filterFilesUnit(string _sCondition , int _iUnitType){
 		TextLibrary.selectSize selectSizeType = TextLibrary.selectSize.BYTE;
 		selectSizeType = (TextLibrary.selectSize) _iUnitType;
-		double _dConditionSize = TextLibrary.IZERO;
+		float _fConditionSize = 0;
 		switch (selectSizeType) {
 		case TextLibrary.selectSize.GB:
-			_dConditionSize = _changeSizeUnit (_sCondition,_iUnitType);
+			_fConditionSize = _changeSizeUnit (_sCondition,_iUnitType);
 			break;
 		case TextLibrary.selectSize.MB:
-			_dConditionSize = _changeSizeUnit (_sCondition,_iUnitType);
+			_fConditionSize = _changeSizeUnit (_sCondition,_iUnitType);
 			break;
 		case TextLibrary.selectSize.KB:
-			_dConditionSize = _changeSizeUnit (_sCondition,_iUnitType);
+			_fConditionSize = _changeSizeUnit (_sCondition,_iUnitType);
 			break;
 		case TextLibrary.selectSize.BYTE:
-			_dConditionSize = _changeSizeUnit (_sCondition,_iUnitType);
+			_fConditionSize = _changeSizeUnit (_sCondition,_iUnitType);
 			break;
 		default:
-			_dConditionSize = TextLibrary.IZERO;
+			_fConditionSize = 0;
 			break;
 		}
-		return _dConditionSize;
+		return _fConditionSize;
 	}
 	//轉換單位成Byte
-	private double _changeSizeUnit(string _sCondition , int _iUnitType)
-	{
-		double _dFileSize = TextLibrary.IZERO;
-		double _dValue = TextLibrary.IONE;
-		if (double.TryParse (_sCondition, out _dFileSize)) {
+	private float _changeSizeUnit(string _sCondition , int _iUnitType)
+	{	//條件轉成Byte
+		float _fFileSize = 0.0f;
+		//算次方的初始值
+		float _fValue = 1.0f;
+		if (float.TryParse (_sCondition, out _fFileSize)) {
 			for (int i = 0; i < _iUnitType; ++i) {
-				_dValue = _dValue * TextLibrary.DCAPACITY;
+				_fValue = _fValue * TextLibrary.FCAPACITY;
 			}
-			_dFileSize = _dFileSize * _dValue;
+			_fFileSize = _fFileSize * _fValue;
 		} else {	
-			_dFileSize = TextLibrary.IZERO;
+			_fFileSize = 0;
 		}
-		return _dFileSize;
+		return _fFileSize;
 	}
 	//篩選內容
-	public string filterContent(string _sFiles,string _sCondition,int _iKey) {
+	public bool filterContent(string _sFiles,string _sCondition,TextLibrary.selectFileFolder _Type) {
 		StreamReader _SRfile = null;
-		string _sFile = null;
-		if (_iKey == TextLibrary.IZERO) {
+		bool _bAnswer = false;
+		if (_Type == TextLibrary.selectFileFolder.File) {
 			try {
 				_SRfile = new StreamReader (_sFiles);
 				string _sSrString = _SRfile.ReadToEnd ();
 				if (_sSrString.Contains (_sCondition)) {
-					_sFile = _sFiles;
+                    _bAnswer = true;
 				}
 			} catch {
-				_sFile = null;
 			} finally {
 				_SRfile.Close ();
 			}
-			return _sFile;
+			return _bAnswer;
 		} else {
-			return null;
+			return _bAnswer;
 		}
 	}
 }

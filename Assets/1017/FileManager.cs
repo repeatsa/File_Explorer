@@ -1,47 +1,44 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 public class FileManager  {
 	private List<FileData> m_arrsFile = new List<FileData> ();
+    public delegate void ManagerDelegate(List<FileData> _arrFiles);
+    public ManagerDelegate JudgmentDelegate;
 
 
-	private string m_sWriteTime = null;
-	private FileInfo m_FIFfiles = null;
-	//取檔案
-	public List<FileData> getFiles(string _sPath){
-		_searchPathAndSetFile (_sPath);
+    //取檔案
+    public List<FileData> getFiles(){
 		return m_arrsFile;
 	}
-	private void _searchPathAndSetFile (string _sPath)
+	public void _searchPathAndSetFile (string _sPath)
 	{
-		_searchSubFolders (_sPath);
 		foreach (string curfile in Directory.GetFiles(_sPath)) {
-			_createListContent (curfile,TextLibrary.IZERO);
+			_createListContent (curfile,TextLibrary.selectFileFolder.File);
 		}
-	}
-
-	private void _searchSubFolders(string _sPath) 
-	{
-		foreach (string curfolder in Directory.GetDirectories(_sPath)) {
-			_createListContent (curfolder,TextLibrary.IONE);
-			foreach (string curfile in Directory.GetFiles(curfolder)) {
-				_createListContent (curfile,TextLibrary.IZERO);
-			}
-			_searchSubFolders (curfolder);
-		}
-	}
+        JudgmentDelegate(m_arrsFile);
+        m_arrsFile.Clear();
+       foreach (string curfolder in Directory.GetDirectories(_sPath))
+        {
+            _createListContent(curfolder, TextLibrary.selectFileFolder.Folder);
+           _searchPathAndSetFile(curfolder);
+        }
+    }
 
 	//將資料會成一個DATA放進LIST中
-	private void _createListContent(string _sPath,int _iType){
+	private void _createListContent(string _sPath,TextLibrary.selectFileFolder _Type){
 		FileData _FileDate = new FileData();
+		if (_Type == TextLibrary.selectFileFolder.File) {
+			FileInfo _FIFfiles = new FileInfo (_sPath);
+			_FileDate.setCreateTime (_FIFfiles.CreationTime.ToString ());
+			_FileDate.setWriteTime (_FIFfiles.LastWriteTime.ToString());
+			_FileDate.setLength (_FIFfiles.Length);
+            _FileDate.setName(_FIFfiles.Name);
+
+        }
 		_FileDate.setFile (_sPath);
-		_FileDate.setkey (_iType);
-		m_FIFfiles = new FileInfo (_sPath);
-		_FileDate.setCreateTime (m_FIFfiles.CreationTime.ToString ());
-		m_sWriteTime = Directory.GetLastWriteTime (_sPath).ToString();
-		_FileDate.setWriteTime (m_sWriteTime);
+		_FileDate.setFileFolderType (_Type);
+
 		m_arrsFile.Add (_FileDate);
 	}
 }
