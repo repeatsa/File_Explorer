@@ -81,6 +81,7 @@
     <Compile Include="Assets\1006\read_files.cs" />
     <Compile Include="Assets\1017\ConditionData.cs" />
     <Compile Include="Assets\1017\FileData.cs" />
+    <Compile Include="Assets\1017\FileFilter.cs" />
     <Compile Include="Assets\1017\FileInFoControl.cs" />
     <Compile Include="Assets\1017\FileInFoModel.cs" />
     <Compile Include="Assets\1017\FileInFoView.cs" />
